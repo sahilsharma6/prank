@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TinyMCE Editor with Open Source Plugins</title>
+    <style>
+      /* CSS styles for rendering images inserted using the image plugin */
+      figure.image {
+        display: inline-block;
+        border: 1px solid gray;
+        margin: 0 2px 0 1px;
+        background: #f5f2f0;
+      }
+      figure.align-left {
+        float: left;
+      }
+      figure.align-right {
+        float: right;
+      }
+      figure.image img {
+        margin: 8px 8px 0 8px;
+      }
+      figure.image figcaption {
+        margin: 6px 8px 6px 8px;
+        text-align: center;
+      }
+      /* Alignment using classes rather than inline styles */
+      img.align-left {
+        float: left;
+      }
+      img.align-right {
+        float: right;
+      }
+      /* Basic styles for Table of Contents plugin (tableofcontents) */
+      .mce-toc {
+        border: 1px solid gray;
+      }
+      .mce-toc h2 {
+        margin: 4px;
+      }
+      .mce-toc li {
+        list-style-type: none;
+      }
+      /* Set default font and size for editor content */
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Your textarea for TinyMCE content -->
+    <textarea id="open-source-plugins"> </textarea>
+
+    <!-- Include TinyMCE script -->
+    <script
+      src="https://cdn.tiny.cloud/1/lfqevskjzwe9ooap19ndn8lbigt79ghkothcuuyb704olerc/tinymce/7/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+
+    <!-- Initialize TinyMCE -->
+    <script>
+      tinymce.init({
+        selector: "textarea#open-source-plugins",
+        plugins:
+          "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion",
+        editimage_cors_hosts: ["picsum.photos"],
+        menubar: "file edit view insert format tools table help",
+        toolbar:
+          "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent | forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl",
+        autosave_ask_before_unload: true,
+        autosave_interval: "30s",
+        autosave_prefix: "{path}{query}-{id}-",
+        autosave_restore_when_empty: false,
+        autosave_retention: "2m",
+        image_advtab: true,
+        link_list: [
+          { title: "My page 1", value: "https://www.tiny.cloud" },
+          { title: "My page 2", value: "http://www.moxiecode.com" },
+        ],
+        image_list: [
+          { title: "My page 1", value: "https://www.tiny.cloud" },
+          { title: "My page 2", value: "http://www.moxiecode.com" },
+        ],
+        image_class_list: [
+          { title: "None", value: "" },
+          { title: "Some class", value: "class-name" },
+        ],
+        importcss_append: true,
+        file_picker_callback: (callback, value, meta) => {
+          /* Provide file and text for the link dialog */
+          if (meta.filetype === "file") {
+            callback("https://www.google.com/logos/google.jpg", {
+              text: "My text",
+            });
+          }
+
+          /* Provide image and alt text for the image dialog */
+          if (meta.filetype === "image") {
+            callback("https://www.google.com/logos/google.jpg", {
+              alt: "My alt text",
+            });
+          }
+
+          /* Provide alternative source and posted for the media dialog */
+          if (meta.filetype === "media") {
+            callback("movie.mp4", {
+              source2: "alt.ogg",
+              poster: "https://www.google.com/logos/google.jpg",
+            });
+          }
+        },
+        height: 600,
+        image_caption: true,
+        quickbars_selection_toolbar:
+          "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
+        noneditable_class: "mceNonEditable",
+        toolbar_mode: "sliding",
+        contextmenu: "link image table",
+        skin: "oxide-dark",
+        content_css: "dark",
+        content_style:
+          "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
+      });
+    </script>
+  </body>
+</html>
